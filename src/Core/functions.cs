@@ -1,14 +1,16 @@
-﻿using Discord.WebSocket;
+﻿using Discord.Commands;
+using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace fightnite_bot.Core
 {
     class functions
     {
-        internal static SocketRole GetRole(SocketGuildUser user, string name)
+        internal static SocketRole GetRoleWithName(SocketGuildUser user, string name)
         {
             string targetRoleName = name;
             var result = from r in user.Guild.Roles
@@ -20,9 +22,9 @@ namespace fightnite_bot.Core
             return user.Guild.GetRole(roleID);
         }
 
-        internal static bool UserIsRole(SocketGuildUser user, string target)
+        internal static bool UserIsRole(SocketGuildUser user, string name)
         {
-            string targetRoleName = target;
+            string targetRoleName = name;
             var result = from r in user.Guild.Roles
                          where r.Name == targetRoleName
                          select r.Id;
@@ -72,7 +74,7 @@ namespace fightnite_bot.Core
             return null;
         }
 
-        internal static SocketVoiceChannel GetChannel(SocketGuildUser user, string name)
+        internal static SocketVoiceChannel GetChannelWithName(SocketGuildUser user, string name)
         {
             string targetRoleName = name;
             var result = from r in user.Guild.Channels
@@ -83,7 +85,7 @@ namespace fightnite_bot.Core
             return user.Guild.GetVoiceChannel(roleID);
         }
 
-        internal static SocketVoiceChannel GetChannelContains(SocketGuildUser user, string name)
+        internal static SocketVoiceChannel GetChannelThatContains(SocketGuildUser user, string name)
         {
             string targetRoleName = name;
             var result = from r in user.Guild.Channels
@@ -94,7 +96,7 @@ namespace fightnite_bot.Core
             return user.Guild.GetVoiceChannel(roleID);
         }
 
-        internal static SocketRole GetRoleContains(SocketGuildUser user, string name)
+        internal static SocketRole GetRoleThatContains(SocketGuildUser user, string name)
         {
             string targetRoleName = name;
             var result = from r in user.Roles
@@ -106,7 +108,7 @@ namespace fightnite_bot.Core
             return user.Guild.GetRole(roleID);
         }
 
-        internal static SocketRole GetRoleGuildContains(SocketGuildUser user, string name)
+        internal static SocketRole GetRoleFromGuildThatContains(SocketGuildUser user, string name)
         {
             string targetRoleName = name;
             var result = from r in user.Guild.Roles

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace fightnite_bot.Core
 {
@@ -16,7 +17,7 @@ namespace fightnite_bot.Core
             return user.Guild.CreateRoleAsync($"queue_{maxPlayers}_{tier}_{platform}");
         }
 
-        public static bool CheckQueue(SocketGuildUser user, string tier, string platform, int maxPlayers)
+        public static bool CheckIfThereIsAnExistingQueue(SocketGuildUser user, string tier, string platform, int maxPlayers)
         {
             tier = tier.Substring(0, 1);
             // check if there is a queue for that platform and tier
@@ -65,35 +66,9 @@ namespace fightnite_bot.Core
             int maxPlayers = 3; // this is a removed feature
             string txt = role.Name;
 
-            bool rolePC = txt.Contains("PC");
-            bool rolePS4 = txt.Contains("PS4");
-            bool roleXbox = txt.Contains("Xbox");
-
-            // add the platform to rolename if needed
-            switch (platform)
-            {
-                case "PC":
-                    if ((rolePS4 || roleXbox) && !rolePC)
-                    {
-                        txt = txt + "_PC";
-                    }
-                    break;
-                case "PS4":
-                    if (rolePC && !roleXbox && !rolePS4)
-                    {
-                        txt = txt + "_PS4";
-                    }
-                    break;
-                case "Xbox":
-                    if(rolePC && !roleXbox && !rolePS4)
-                    {
-                        txt = txt + "_Xbox";
-                    }
-                    break;
-                default:
-                    break;
-            }
-            if(maxP != 0)
+            txt = AddThePlatformToRolenameIfNeeded(txt, platform);
+            
+            if (maxP != 0)
             {
                 maxPlayers = maxP - 1; // this is for !c
             }
@@ -110,13 +85,12 @@ namespace fightnite_bot.Core
                     });
                     string channelname = $"Scrim #{rndinname}";
                     Discord.Rest.RestVoiceChannel channel = await user.Guild.CreateVoiceChannelAsync(channelname);
-                    OverwritePermissions a = new OverwritePermissions(connect: PermValue.Allow);
-                    OverwritePermissions d = new OverwritePermissions(connect: PermValue.Deny);
-                    await channel.AddPermissionOverwriteAsync(role, a);
-                    await channel.AddPermissionOverwriteAsync(functions.GetRole(user, "@everyone"), d);
+                    await EditVoiceChannelPermissionsAsync(user, channel, role);
+                    //move channel to category & give it a userlimit
+                    ulong categoryId = Convert.ToUInt64(Config.bot.categoryId);
                     await channel.ModifyAsync(x =>
                     {
-                        x.CategoryId = 447191118715682818;
+                        x.CategoryId = categoryId;
                         x.UserLimit = maxPlayers+1;
                     });
                     string message = $"{user.Mention} The {tier} queue is now full! Created voice channel {channelname}. You are teamed with:";
@@ -142,6 +116,46 @@ namespace fightnite_bot.Core
             {
                 await _channel.SendMessageAsync($"{user.Mention} Succesfully joined the {tier} queue.");
             }
+        }
+
+        private static string AddThePlatformToRolenameIfNeeded(string txt, string platform)
+        {
+            bool rolePC = txt.Contains("PC");
+            bool rolePS4 = txt.Contains("PS4");
+            bool roleXbox = txt.Contains("Xbox");
+
+            switch (platform)
+            {
+                case "PC":
+                    if ((rolePS4 || roleXbox) && !rolePC)
+                    {
+                        txt = txt + "_PC";
+                    }
+                    break;
+                case "PS4":
+                    if (rolePC && !roleXbox && !rolePS4)
+                    {
+                        txt = txt + "_PS4";
+                    }
+                    break;
+                case "Xbox":
+                    if (rolePC && !roleXbox && !rolePS4)
+                    {
+                        txt = txt + "_Xbox";
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return txt;
+        }
+        private static async Task EditVoiceChannelPermissionsAsync(SocketGuildUser user, Discord.Rest.RestVoiceChannel channel, Discord.IRole role)
+        {
+            //only given role can join the given voicechannel
+            OverwritePermissions a = new OverwritePermissions(connect: PermValue.Allow);
+            OverwritePermissions d = new OverwritePermissions(connect: PermValue.Deny);
+            await channel.AddPermissionOverwriteAsync(role, a);
+            await channel.AddPermissionOverwriteAsync(functions.GetRoleWithName(user, "@everyone"), d);
         }
     }
 }

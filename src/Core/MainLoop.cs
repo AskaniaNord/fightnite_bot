@@ -40,7 +40,7 @@ namespace fightnite_bot.Core
                         if (channel.Users.Count == 0)
                         {
                             string chNumber = channel.Name.Substring(channel.Name.Length - 4, 3);
-                            SocketRole role = functions.GetRoleGuildContains(user, chNumber);
+                            SocketRole role = functions.GetRoleFromGuildThatContains(user, chNumber);
                             channel.DeleteAsync();
                             role.DeleteAsync();
                         }

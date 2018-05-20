@@ -67,7 +67,7 @@ namespace fightnite_bot.Modules
                 return;
             }
             //Check if they are in queue/lobby or not
-            if (functions.GetRoleContains((SocketGuildUser)Context.User, "queue") == null)
+            if (functions.GetRoleThatContains((SocketGuildUser)Context.User, "queue") == null)
             {
                 SocketRole sRole;
                 //Get user tier
@@ -101,16 +101,16 @@ namespace fightnite_bot.Modules
                         break;
                 }
                 // Check if there is already a queue for that type
-                if (q.CheckQueue((SocketGuildUser)Context.User, tier, platform, arg))
+                if (q.CheckIfThereIsAnExistingQueue((SocketGuildUser)Context.User, tier, platform, arg))
                 {
                     //You get here if already a queue exists
                     sRole = null;
                     // Get the role object
                     foreach (string rolename in rolenames)
                     {
-                        if (functions.GetRole((SocketGuildUser)Context.User, rolename) != null)
+                        if (functions.GetRoleWithName((SocketGuildUser)Context.User, rolename) != null)
                         {
-                            sRole = functions.GetRole((SocketGuildUser)Context.User, rolename);
+                            sRole = functions.GetRoleWithName((SocketGuildUser)Context.User, rolename);
                             break;
                         }
                     }
@@ -127,9 +127,9 @@ namespace fightnite_bot.Modules
                     // idk why i do this
                     foreach (string rolename in rolenames)
                     {
-                        if (functions.GetRole((SocketGuildUser)Context.User, rolename) != null)
+                        if (functions.GetRoleWithName((SocketGuildUser)Context.User, rolename) != null)
                         {
-                            sRole = functions.GetRole((SocketGuildUser)Context.User, rolename);
+                            sRole = functions.GetRoleWithName((SocketGuildUser)Context.User, rolename);
                             break;
                         }
                     }
@@ -141,15 +141,12 @@ namespace fightnite_bot.Modules
             else
             {
                 // respond to user that he is already in the queue
-                SocketRole role = functions.GetRoleContains((SocketGuildUser)Context.User, "queue");
+                SocketRole role = functions.GetRoleThatContains((SocketGuildUser)Context.User, "queue");
                 if (role.Name.Contains("full"))
-                {
                     await Context.Channel.SendMessageAsync($"{Context.User.Mention} You are still in a non expired lobby! Use !leave to leave.");
-                }
                 else
-                {
                     await Context.Channel.SendMessageAsync($"{Context.User.Mention} You are already in a queue! Use !leave to leave.");
-                }
+                
             }
         }
         [Command("leave")]
@@ -163,7 +160,7 @@ namespace fightnite_bot.Modules
                 await Context.Channel.SendMessageAsync($"{Context.User.Mention} Please use {ch.Mention}");
                 return;
             }
-            SocketRole role = functions.GetRoleContains((SocketGuildUser)Context.User, "queue");
+            SocketRole role = functions.GetRoleThatContains((SocketGuildUser)Context.User, "queue");
             if (role == null || role.Equals(null))
             {
                 await Context.Channel.SendMessageAsync($"{Context.User.Mention} You are not in a queue.");
@@ -174,7 +171,7 @@ namespace fightnite_bot.Modules
             {
                 // if he is alone delete the role and channel
                 string channellast = role.Name.Substring(role.Name.Length - 3, 3);
-                SocketVoiceChannel channel = functions.GetChannelContains((SocketGuildUser)Context.User, channellast);
+                SocketVoiceChannel channel = functions.GetChannelThatContains((SocketGuildUser)Context.User, channellast);
                 await role.DeleteAsync();
                 if (channel != null)
                 {
@@ -201,7 +198,7 @@ namespace fightnite_bot.Modules
                 await Context.Channel.SendMessageAsync($"{Context.User.Mention} Please use {ch.Mention}");
                 return;
             }
-            SocketRole role = functions.GetRoleContains((SocketGuildUser)Context.User, "queue");
+            SocketRole role = functions.GetRoleThatContains((SocketGuildUser)Context.User, "queue");
             if (role == null)
             {
                 await Context.Channel.SendMessageAsync($"{Context.User.Mention} You are currently not in a queue.");
@@ -310,7 +307,7 @@ namespace fightnite_bot.Modules
                 return;
             }
             string platform = functions.GetUserPlatform((SocketGuildUser)Context.User);
-            SocketRole srole = functions.GetRoleContains((SocketGuildUser)Context.User, "queue");
+            SocketRole srole = functions.GetRoleThatContains((SocketGuildUser)Context.User, "queue");
             if (srole == null)
             {
                 await Context.Channel.SendMessageAsync($"{Context.User.Mention} You are currently not in a queue.");
@@ -349,7 +346,7 @@ namespace fightnite_bot.Modules
                         if (channel.Name.Contains("e"))
                         {
                             string chNumber = channel.Name.Substring(channel.Name.Length - 4, 3);
-                            SocketRole role = functions.GetRoleGuildContains((SocketGuildUser)Context.User, chNumber);
+                            SocketRole role = functions.GetRoleFromGuildThatContains((SocketGuildUser)Context.User, chNumber);
                             await channel.DeleteAsync();
                             if (!(role == null))
                             {
@@ -359,7 +356,7 @@ namespace fightnite_bot.Modules
                         else
                         {
                             string chNumber = channel.Name.Substring(channel.Name.Length - 3, 3);
-                            SocketRole role = functions.GetRoleGuildContains((SocketGuildUser)Context.User, chNumber);
+                            SocketRole role = functions.GetRoleFromGuildThatContains((SocketGuildUser)Context.User, chNumber);
                             await channel.DeleteAsync();
                             if (!(role == null))
                             {

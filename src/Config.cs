@@ -36,6 +36,7 @@ namespace fightnite_bot
             public string creatorId;
             public string channelId;
             public string guildId;
+            public string categoryId;
         }
     }
 }
