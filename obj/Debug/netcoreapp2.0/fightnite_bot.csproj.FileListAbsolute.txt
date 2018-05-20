@@ -1,0 +1,12 @@
+C:\Users\bittf\source\repos\test_bulletproof\test_bulletproof\bin\Debug\netcoreapp2.0\SystemLang\alerts.json
+C:\Users\bittf\source\repos\test_bulletproof\test_bulletproof\bin\Debug\netcoreapp2.0\fightnite_bot.deps.json
+C:\Users\bittf\source\repos\test_bulletproof\test_bulletproof\bin\Debug\netcoreapp2.0\fightnite_bot.runtimeconfig.json
+C:\Users\bittf\source\repos\test_bulletproof\test_bulletproof\bin\Debug\netcoreapp2.0\fightnite_bot.runtimeconfig.dev.json
+C:\Users\bittf\source\repos\test_bulletproof\test_bulletproof\bin\Debug\netcoreapp2.0\fightnite_bot.dll
+C:\Users\bittf\source\repos\test_bulletproof\test_bulletproof\bin\Debug\netcoreapp2.0\fightnite_bot.pdb
+C:\Users\bittf\source\repos\test_bulletproof\test_bulletproof\obj\Debug\netcoreapp2.0\fightnite_bot.csprojAssemblyReference.cache
+C:\Users\bittf\source\repos\test_bulletproof\test_bulletproof\obj\Debug\netcoreapp2.0\fightnite_bot.csproj.CoreCompileInputs.cache
+C:\Users\bittf\source\repos\test_bulletproof\test_bulletproof\obj\Debug\netcoreapp2.0\fightnite_bot.AssemblyInfoInputs.cache
+C:\Users\bittf\source\repos\test_bulletproof\test_bulletproof\obj\Debug\netcoreapp2.0\fightnite_bot.AssemblyInfo.cs
+C:\Users\bittf\source\repos\test_bulletproof\test_bulletproof\obj\Debug\netcoreapp2.0\fightnite_bot.dll
+C:\Users\bittf\source\repos\test_bulletproof\test_bulletproof\obj\Debug\netcoreapp2.0\fightnite_bot.pdb

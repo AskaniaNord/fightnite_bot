@@ -1,0 +1,12 @@
+C:\Users\bittf\source\repos\test_bulletproof\test_bulletproof\bin\Debug\netcoreapp2.0\test_bulletproof.deps.json
+C:\Users\bittf\source\repos\test_bulletproof\test_bulletproof\bin\Debug\netcoreapp2.0\test_bulletproof.runtimeconfig.json
+C:\Users\bittf\source\repos\test_bulletproof\test_bulletproof\bin\Debug\netcoreapp2.0\test_bulletproof.runtimeconfig.dev.json
+C:\Users\bittf\source\repos\test_bulletproof\test_bulletproof\bin\Debug\netcoreapp2.0\test_bulletproof.dll
+C:\Users\bittf\source\repos\test_bulletproof\test_bulletproof\obj\Debug\netcoreapp2.0\test_bulletproof.csprojAssemblyReference.cache
+C:\Users\bittf\source\repos\test_bulletproof\test_bulletproof\obj\Debug\netcoreapp2.0\test_bulletproof.csproj.CoreCompileInputs.cache
+C:\Users\bittf\source\repos\test_bulletproof\test_bulletproof\obj\Debug\netcoreapp2.0\test_bulletproof.AssemblyInfoInputs.cache
+C:\Users\bittf\source\repos\test_bulletproof\test_bulletproof\obj\Debug\netcoreapp2.0\test_bulletproof.AssemblyInfo.cs
+C:\Users\bittf\source\repos\test_bulletproof\test_bulletproof\bin\Debug\netcoreapp2.0\SystemLang\alerts.json
+C:\Users\bittf\source\repos\test_bulletproof\test_bulletproof\bin\Debug\netcoreapp2.0\test_bulletproof.pdb
+C:\Users\bittf\source\repos\test_bulletproof\test_bulletproof\obj\Debug\netcoreapp2.0\test_bulletproof.dll
+C:\Users\bittf\source\repos\test_bulletproof\test_bulletproof\obj\Debug\netcoreapp2.0\test_bulletproof.pdb
