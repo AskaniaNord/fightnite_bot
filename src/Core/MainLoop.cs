@@ -1,8 +1,4 @@
-﻿using Discord.WebSocket;
-using fightnite_bot.Modules;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
 using System.Timers;
 
@@ -10,17 +6,17 @@ namespace fightnite_bot.Core
 {
     internal static class MainLoop
     {
-        private static Timer Loop;
+        private static Timer _loop;
 
         internal static Task StartLoop()
         {
-            Loop = new Timer()
+            _loop = new Timer()
             {
                 Interval = 900000,
                 AutoReset = true,
                 Enabled = true
             };
-            Loop.Elapsed += OnLoopTicked;
+            _loop.Elapsed += OnLoopTicked;
 
             return Task.CompletedTask;
         }
@@ -28,34 +24,28 @@ namespace fightnite_bot.Core
         private static void OnLoopTicked(object sender, ElapsedEventArgs e)
         {
             // if interval is short it works, if interval is long it doesnt work?! idk why
-            ulong guildId = Convert.ToUInt64(Config.bot.guildId);
-            ulong creatorId = Convert.ToUInt64(Config.bot.creatorId);
-            SocketGuildUser user = Global.Client.GetGuild(guildId).GetUser(creatorId);
-            foreach(SocketVoiceChannel channel in user.Guild.VoiceChannels)
+            var guildId = Convert.ToUInt64(Config.Bot.guildId);
+            var creatorId = Convert.ToUInt64(Config.Bot.creatorId);
+            var user = Global.Client.GetGuild(guildId).GetUser(creatorId);
+            foreach(var channel in user.Guild.VoiceChannels)
             {
-                if (channel.Name.Contains("Scrim #"))
+                if (!channel.Name.Contains("Scrim #")) continue;
+                if (channel.Name.Contains("e"))
                 {
-                    if (channel.Name.Contains("e"))
+                    if (channel.Users.Count != 0) continue;
+                    var chNumber = channel.Name.Substring(channel.Name.Length - 4, 3);
+                    var role = Functions.GetRoleFromGuildThatContains(user, chNumber);
+                    channel.DeleteAsync();
+                    role.DeleteAsync();
+                } else
+                {
+                    if (channel.Users.Count != 0) continue;
+                    var txt = channel.Name;
+                    txt = txt + "e";
+                    channel.ModifyAsync(x =>
                     {
-                        if (channel.Users.Count == 0)
-                        {
-                            string chNumber = channel.Name.Substring(channel.Name.Length - 4, 3);
-                            SocketRole role = functions.GetRoleFromGuildThatContains(user, chNumber);
-                            channel.DeleteAsync();
-                            role.DeleteAsync();
-                        }
-                    } else
-                    {
-                        if (channel.Users.Count == 0)
-                        {
-                            string txt = channel.Name;
-                            txt = txt + "e";
-                            channel.ModifyAsync(x =>
-                            {
-                                x.Name = txt;
-                            });
-                        }
-                    }
+                        x.Name = txt;
+                    });
                 }
             }
         }

@@ -1,123 +1,77 @@
-﻿using Discord.Commands;
-using Discord.WebSocket;
-using System;
-using System.Collections.Generic;
+﻿using Discord.WebSocket;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace fightnite_bot.Core
 {
-    class functions
+    internal class Functions
     {
         internal static SocketRole GetRoleWithName(SocketGuildUser user, string name)
         {
-            string targetRoleName = name;
+            var targetRoleName = name;
             var result = from r in user.Guild.Roles
                          where r.Name == targetRoleName
                          select r.Id;
-            ulong roleID = result.FirstOrDefault();
-            if (roleID == 0) return null;
-            if (roleID.Equals(null)) return null;
-            return user.Guild.GetRole(roleID);
-        }
-
-        internal static bool UserIsRole(SocketGuildUser user, string name)
-        {
-            string targetRoleName = name;
-            var result = from r in user.Guild.Roles
-                         where r.Name == targetRoleName
-                         select r.Id;
-            ulong roleID = result.FirstOrDefault();
-            if (roleID == 0) return false;
-            var targetRole = user.Guild.GetRole(roleID);
-            return user.Roles.Contains(targetRole);
+            var roleId = result.FirstOrDefault();
+            if (roleId == 0) return null;
+            return roleId.Equals(null) ? null : user.Guild.GetRole(roleId);
         }
 
         internal static string GetUserTier(SocketGuildUser user)
         {
             string[] tiers = { "Bronze", "Silver", "Gold", "Platinum", "Diamond" };
-            foreach (string tier in tiers)
-            {
-                string targetRoleName = tier;
-                var result = from r in user.Guild.Roles
-                             where r.Name == targetRoleName
-                             select r.Id;
-                ulong roleID = result.FirstOrDefault();
-                if (roleID == 0) continue;
-                var targetRole = user.Guild.GetRole(roleID);
-                if (user.Roles.Contains(targetRole))
-                {
-                    return tier;
-                }
-            }
-            return null;
+            return (from tier in tiers
+                let targetRoleName = tier
+                let result = (from r in user.Guild.Roles where r.Name == targetRoleName select r.Id)
+                let roleId = result.FirstOrDefault()
+                where roleId != 0
+                let targetRole = user.Guild.GetRole(roleId)
+                where user.Roles.Contains(targetRole)
+                select tier).FirstOrDefault();
         }
 
         internal static string GetUserPlatform(SocketGuildUser user)
         {
             string[] platforms = { "PS4", "PC", "Xbox" };
-            foreach (string platform in platforms)
-            {
-                string targetRoleName = platform;
-                var result = from r in user.Guild.Roles
-                             where r.Name == targetRoleName
-                             select r.Id;
-                ulong roleID = result.FirstOrDefault();
-                if (roleID == 0) continue;
-                var targetRole = user.Guild.GetRole(roleID);
-                if (user.Roles.Contains(targetRole))
-                {
-                    return platform;
-                }
-            }
-            return null;
-        }
-
-        internal static SocketVoiceChannel GetChannelWithName(SocketGuildUser user, string name)
-        {
-            string targetRoleName = name;
-            var result = from r in user.Guild.Channels
-                         where r.Name == targetRoleName
-                         select r.Id;
-            ulong roleID = result.FirstOrDefault();
-            if (roleID == 0) return null;
-            return user.Guild.GetVoiceChannel(roleID);
+            return (from platform in platforms
+                let targetRoleName = platform
+                let result = (from r in user.Guild.Roles where r.Name == targetRoleName select r.Id)
+                let roleId = result.FirstOrDefault()
+                where roleId != 0
+                let targetRole = user.Guild.GetRole(roleId)
+                where user.Roles.Contains(targetRole)
+                select platform).FirstOrDefault();
         }
 
         internal static SocketVoiceChannel GetChannelThatContains(SocketGuildUser user, string name)
         {
-            string targetRoleName = name;
+            var targetRoleName = name;
             var result = from r in user.Guild.Channels
                          where r.Name.Contains(targetRoleName)
                          select r.Id;
-            ulong roleID = result.FirstOrDefault();
-            if (roleID == 0) return null;
-            return user.Guild.GetVoiceChannel(roleID);
+            var roleId = result.FirstOrDefault();
+            return roleId == 0 ? null : user.Guild.GetVoiceChannel(roleId);
         }
 
         internal static SocketRole GetRoleThatContains(SocketGuildUser user, string name)
         {
-            string targetRoleName = name;
+            var targetRoleName = name;
             var result = from r in user.Roles
                          where r.Name.Contains(targetRoleName)
                          select r.Id;
-            ulong roleID = result.FirstOrDefault();
-            if (roleID == 0) return null;
-            if (roleID.Equals(null)) return null;
-            return user.Guild.GetRole(roleID);
+            var roleId = result.FirstOrDefault();
+            if (roleId == 0) return null;
+            return roleId.Equals(null) ? null : user.Guild.GetRole(roleId);
         }
 
         internal static SocketRole GetRoleFromGuildThatContains(SocketGuildUser user, string name)
         {
-            string targetRoleName = name;
+            var targetRoleName = name;
             var result = from r in user.Guild.Roles
                          where r.Name.Contains(targetRoleName)
                          select r.Id;
-            ulong roleID = result.FirstOrDefault();
-            if (roleID == 0) return null;
-            if (roleID.Equals(null)) return null;
-            return user.Guild.GetRole(roleID);
+            var roleId = result.FirstOrDefault();
+            if (roleId == 0) return null;
+            return roleId.Equals(null) ? null : user.Guild.GetRole(roleId);
         }
 
         internal static SocketGuildUser GetSocketGuildUser(SocketGuildUser user)

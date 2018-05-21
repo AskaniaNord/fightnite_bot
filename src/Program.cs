@@ -11,19 +11,19 @@ namespace fightnite_bot
         DiscordSocketClient _client;
         CommandHandler _handler;
 
-        static void Main(string[] args)
+        private static void Main()
         => new Program().StartAsync().GetAwaiter().GetResult();
 
         public async Task StartAsync()
         {
-            if (Config.bot.token == "" || Config.bot.token == null) return;
+            if (string.IsNullOrEmpty(Config.Bot.token)) return;
             _client = new DiscordSocketClient(new DiscordSocketConfig
             {
                 LogLevel = LogSeverity.Verbose
             });
             _client.Log += Log;
             _client.Ready += MainLoop.StartLoop;
-            await _client.LoginAsync(TokenType.Bot, Config.bot.token);
+            await _client.LoginAsync(TokenType.Bot, Config.Bot.token);
             await _client.StartAsync();
             Global.Client = _client;
             _handler = new CommandHandler();
@@ -32,9 +32,8 @@ namespace fightnite_bot
         }
 
        
-        private async Task Log(LogMessage msg)
-        {
-            Console.WriteLine(msg.Message);
-        }
+#pragma warning disable 1998
+        private static async Task Log(LogMessage msg) => Console.WriteLine(msg.Message);
+#pragma warning restore 1998
     }
 }

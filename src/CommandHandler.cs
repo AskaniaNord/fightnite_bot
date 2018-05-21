@@ -1,9 +1,7 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace fightnite_bot
@@ -23,11 +21,10 @@ namespace fightnite_bot
 
         private async Task HandleCommandAsync(SocketMessage s)
         {
-            var msg = s as SocketUserMessage;
-            if (msg == null) return;
+            if (!(s is SocketUserMessage msg)) return;
             var context = new SocketCommandContext(_client, msg);
-            int argPos = 0;
-            if (msg.HasStringPrefix(Config.bot.cmdPrefix, ref argPos)
+            var argPos = 0;
+            if (msg.HasStringPrefix(Config.Bot.cmdPrefix, ref argPos)
                 || msg.HasMentionPrefix(_client.CurrentUser, ref argPos))
             {
                 var result = await _service.ExecuteAsync(context, argPos);
