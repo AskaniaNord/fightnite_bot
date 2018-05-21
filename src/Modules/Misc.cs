@@ -314,7 +314,7 @@ namespace fightnite_bot.Modules
             }
             else
             {
-                message = "There is no active queue.";
+                message = $"{Context.User.Mention} There is no active queue.";
             }
             await Context.Channel.SendMessageAsync(message);
         }

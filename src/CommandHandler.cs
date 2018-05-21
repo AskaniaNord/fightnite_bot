@@ -32,6 +32,17 @@ namespace fightnite_bot
                 {
                     Console.WriteLine(result.ErrorReason);
                 }
+
+                if (result.Error == CommandError.UnknownCommand)
+                {
+                    if (msg.Author.Id != 447190702863155220)
+                    {
+                        if (msg.Channel.Id == 447530226272960524)
+                        {
+                            await msg.DeleteAsync();
+                        }
+                    }
+                }
             }
             else
             {
