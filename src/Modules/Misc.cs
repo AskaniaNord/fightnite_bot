@@ -214,81 +214,108 @@ namespace fightnite_bot.Modules
                 await Context.Channel.SendMessageAsync(message1);
                 return;
             }
-            
-            var message = $"{Context.User.Mention} Here is the queue status: \n```";
+
+            var isThereAQueue = false;
             foreach (var r in Context.Guild.Roles)
             {
-                //rotate through each role to check if it is a queue
                 if (!r.Name.Contains("queue") || r.Name.Contains("full")) continue;
-                var sResult = r.Name.Substring(8, 1);
-                string tier;
-                var isPc = false;
-                var isPs4 = false;
-                var isXbox = false;
-                // Get Tier
-                switch (sResult)
+                else
                 {
-                    default:
-                        tier = "Error";
-                        break;
-                    case "A":
-                        tier = "AllTier";
-                        break;
-                    case "B":
-                        tier = "Bronze";
-                        break;
-                    case "S":
-                        tier = "Silver";
-                        break;
-                    case "G":
-                        tier = "Gold";
-                        break;
-                    case "P":
-                        tier = "Platinum";
-                        break;
-                    case "D":
-                        tier = "Diamond";
-                        break;
+                    isThereAQueue = true;
                 }
-                //Get Platform(s)
-                if (r.Name.Contains("PC"))
-                {
-                    isPc = true;
-                }
-                if (r.Name.Contains("Xbox"))
-                {
-                    isXbox = true;
-                }
-                if (r.Name.Contains("PS4"))
-                {
-                    isPs4 = true;
-                }
-                // Get response for platforms, dont know a way of doing it better
-                if (isPc && !isPs4 && !isXbox)
-                {
-                    message = message + $"{tier} queue status for PC: {r.Members.Count()}/4. Members:";
-                }
-                if (!isPc && isPs4 && !isXbox)
-                {
-                    message = message + $"{tier} queue status for PS4: {r.Members.Count()}/4. Members:";
-                }
-                if (!isPc && !isPs4 && isXbox)
-                {
-                    message = message + $"{tier} queue status for Xbox: {r.Members.Count()}/4. Members:";
-                }
-                if (isPc && isPs4 && !isXbox)
-                {
-                    message = message + $"{tier} queue status for PC and PS4: {r.Members.Count()}/4. Members:";
-                }
-                if (isPc && !isPs4 && isXbox)
-                {
-                    message = message + $"{tier} queue status for PC and Xbox: {r.Members.Count()}/4. Members:";
-                }
-
-                message = r.Members.Aggregate(message, (current, u) => current + $" {u.Username}");
-                message = message + "\n";
             }
-            message = message + "```";
+
+            string message;
+            if (isThereAQueue)
+            {
+                message = $"{Context.User.Mention} Here is the queue status: \n```";
+                foreach (var r in Context.Guild.Roles)
+                {
+                    //rotate through each role to check if it is a queue
+                    if (!r.Name.Contains("queue") || r.Name.Contains("full")) continue;
+                    var sResult = r.Name.Substring(8, 1);
+                    string tier;
+                    var isPc = false;
+                    var isPs4 = false;
+                    var isXbox = false;
+                    // Get Tier
+                    switch (sResult)
+                    {
+                        default:
+                            tier = "Error";
+                            break;
+                        case "A":
+                            tier = "AllTier";
+                            break;
+                        case "B":
+                            tier = "Bronze";
+                            break;
+                        case "S":
+                            tier = "Silver";
+                            break;
+                        case "G":
+                            tier = "Gold";
+                            break;
+                        case "P":
+                            tier = "Platinum";
+                            break;
+                        case "D":
+                            tier = "Diamond";
+                            break;
+                    }
+
+                    //Get Platform(s)
+                    if (r.Name.Contains("PC"))
+                    {
+                        isPc = true;
+                    }
+
+                    if (r.Name.Contains("Xbox"))
+                    {
+                        isXbox = true;
+                    }
+
+                    if (r.Name.Contains("PS4"))
+                    {
+                        isPs4 = true;
+                    }
+
+                    // Get response for platforms, dont know a way of doing it better
+                    if (isPc && !isPs4 && !isXbox)
+                    {
+                        message = message + $"{tier} queue status for PC: {r.Members.Count()}/4. Members:";
+                    }
+
+                    if (!isPc && isPs4 && !isXbox)
+                    {
+                        message = message + $"{tier} queue status for PS4: {r.Members.Count()}/4. Members:";
+                    }
+
+                    if (!isPc && !isPs4 && isXbox)
+                    {
+                        message = message + $"{tier} queue status for Xbox: {r.Members.Count()}/4. Members:";
+                    }
+
+                    if (isPc && isPs4 && !isXbox)
+                    {
+                        message = message + $"{tier} queue status for PC and PS4: {r.Members.Count()}/4. Members:";
+                    }
+
+                    if (isPc && !isPs4 && isXbox)
+                    {
+                        message = message + $"{tier} queue status for PC and Xbox: {r.Members.Count()}/4. Members:";
+                    }
+
+                    message = r.Members.Aggregate(message, (current, u) => current + $" {u.Username}");
+                    message = message + "\n";
+                }
+                message = message + "```";
+                
+            }
+            else
+            {
+                message = "There is no active queue.";
+            }
             await Context.Channel.SendMessageAsync(message);
         }
         [Command("c")]
