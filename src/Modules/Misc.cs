@@ -206,11 +206,7 @@ namespace fightnite_bot.Modules
                 return;
             }
             var role = Functions.GetRoleThatContains((SocketGuildUser)Context.User, "queue");
-            if (role == null)
-            {
-                await Context.Channel.SendMessageAsync($"{Context.User.Mention} You are currently not in a queue.");
-                return;
-            }
+
             if (role.Name.Contains("full"))
             {
                 var message1 = $"{Context.User.Mention} Your lobby has already started! You are matched with:";

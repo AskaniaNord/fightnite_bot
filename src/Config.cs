@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
+// ReSharper disable InconsistentNaming
 
 namespace fightnite_bot
 {
