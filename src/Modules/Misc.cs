@@ -207,7 +207,7 @@ namespace fightnite_bot.Modules
             }
             var role = Functions.GetRoleThatContains((SocketGuildUser)Context.User, "queue");
 
-            if (role.Name.Contains("full"))
+            if (role != null && role.Name.Contains("full"))
             {
                 var message1 = $"{Context.User.Mention} Your lobby has already started! You are matched with:";
                 message1 = role.Members.Aggregate(message1, (current, u) => current + $" {u.Mention}");
